@@ -2,15 +2,470 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recommended Songs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f7b731, #5f27cd);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Vinyl record animation */
+        .vinyl {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 40%, #1a1a1a 41%, #000 100%);
+            animation: spin 8s linear infinite;
+            opacity: 0.1;
+        }
+
+        .vinyl::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 10px #c9184a;
+        }
+
+        .vinyl:nth-child(1) {
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .vinyl:nth-child(2) {
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -4s;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Music notes floating */
+        .note {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0;
+            animation: floatUp 6s ease-in infinite;
+        }
+
+        .note:nth-child(3) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .note:nth-child(4) {
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .note:nth-child(5) {
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        .note:nth-child(6) {
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .note:nth-child(7) {
+            left: 90%;
+            animation-delay: 3s;
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -50px;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 60px 50px;
+            background: rgba(20, 25, 45, 0.85);
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            animation: containerPulse 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes containerPulse {
+            0%, 100% {
+                box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6),
+                            0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                            0 0 50px rgba(78, 205, 196, 0);
+            }
+            50% {
+                box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6),
+                            0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                            0 0 50px rgba(78, 205, 196, 0.3);
+            }
+        }
+
+        .neon-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f7b731, #5f27cd);
+            background-size: 300% 300%;
+            animation: neonGlow 4s ease infinite;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        @keyframes neonGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .trophy {
+            font-size: 80px;
+            display: inline-block;
+            animation: trophyBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(247, 183, 49, 0.8));
+            margin-bottom: 20px;
+        }
+
+        @keyframes trophyBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-15px) scale(1.1);
+            }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8em;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        .title-word {
+            display: inline-block;
+            animation: colorShift 3s ease-in-out infinite;
+        }
+
+        .title-word:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .title-word:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes colorShift {
+            0%, 100% { color: #ff6b6b; text-shadow: 0 0 20px rgba(255, 107, 107, 0.8); }
+            33% { color: #4ecdc4; text-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+            66% { color: #f7b731; text-shadow: 0 0 20px rgba(247, 183, 49, 0.8); }
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #b8c5d6;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .songs-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 40px;
+        }
+
+        .song-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(78, 205, 196, 0.3);
+            border-radius: 20px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            text-align: left;
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-item:nth-child(1) { animation-delay: 0.1s; }
+        .song-item:nth-child(2) { animation-delay: 0.2s; }
+        .song-item:nth-child(3) { animation-delay: 0.3s; }
+        .song-item:nth-child(4) { animation-delay: 0.4s; }
+        .song-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .song-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .song-item:hover::before {
+            left: 100%;
+        }
+
+        .song-item:hover {
+            transform: translateX(10px);
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+            box-shadow: 0 5px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .song-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ff6b6b, #c9184a);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            color: white;
+            margin-right: 15px;
+            font-size: 0.9em;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4);
+        }
+
+        .song-name {
+            font-size: 1.15em;
+            color: #fff;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        button {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            padding: 18px 55px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #c9184a 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 107, 107, 0.6);
+        }
+
+        button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Equalizer bars */
+        .equalizer {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+            height: 50px;
+            align-items: flex-end;
+        }
+
+        .eq-bar {
+            width: 6px;
+            background: linear-gradient(to top, #ff6b6b, #4ecdc4);
+            border-radius: 3px;
+            animation: equalizer 0.8s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) { animation-delay: 0s; height: 20%; }
+        .eq-bar:nth-child(2) { animation-delay: 0.1s; height: 40%; }
+        .eq-bar:nth-child(3) { animation-delay: 0.2s; height: 60%; }
+        .eq-bar:nth-child(4) { animation-delay: 0.3s; height: 80%; }
+        .eq-bar:nth-child(5) { animation-delay: 0.4s; height: 100%; }
+        .eq-bar:nth-child(6) { animation-delay: 0.5s; height: 80%; }
+        .eq-bar:nth-child(7) { animation-delay: 0.6s; height: 60%; }
+
+        @keyframes equalizer {
+            0%, 100% {
+                height: 20%;
+            }
+            50% {
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+            
+            .trophy {
+                font-size: 60px;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+            
+            button {
+                font-size: 1.1em;
+                padding: 15px 45px;
+            }
+            
+            .container {
+                padding: 40px 30px;
+            }
+
+            .song-item {
+                padding: 18px 20px;
+            }
+
+            .song-name {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
-<body style="text-align:center; font-family:Arial;">
-    <h2>🎶 Songs Recommended For You 🎶</h2>
-    <ul style="list-style:none;">
-        {% for song in songs %}
-        <li>{{ loop.index }}. {{ song }}</li>
-        {% endfor %}
-    </ul>
-    <a href="/input"><button>Try Again</button></a>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="vinyl"></div>
+    <div class="vinyl"></div>
+    <div class="note">🎵</div>
+    <div class="note">🎶</div>
+    <div class="note">🎵</div>
+    <div class="note">🎶</div>
+    <div class="note">🎵</div>
+
+    <div class="container">
+        <div class="neon-border"></div>
+        
+        <div class="trophy">🏆</div>
+        
+        <h2>
+            <span class="title-word">Your</span>
+            <span class="title-word">Recommendations</span>
+        </h2>
+        
+        <p class="subtitle">Here are your personalized song picks!</p>
+
+        <ul class="songs-list">
+            {% for song in songs %}
+            <li class="song-item">
+                <span class="song-number">{{ loop.index }}</span>
+                <span class="song-name">{{ song }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <a href="/input" style="text-decoration: none;">
+            <button>Try Again 🔄</button>
+        </a>
+
+        <div class="equalizer">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+    </div>
 </body>
 </html>
