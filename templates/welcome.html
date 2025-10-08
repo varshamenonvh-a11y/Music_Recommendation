@@ -19,7 +19,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -144,6 +145,7 @@
             backdrop-filter: blur(20px);
             animation: containerPulse 3s ease-in-out infinite;
             position: relative;
+            margin: 40px 0;
         }
 
         @keyframes containerPulse {
