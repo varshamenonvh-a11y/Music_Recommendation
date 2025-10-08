@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Song Details</title>
+</head>
+<body style="text-align:center; font-family:Arial;">
+    <h2>Enter Song Details</h2>
+    <form action="/recommend" method="POST">
+        <label>View Count:</label><br>
+        <input type="text" name="view_count" required><br><br>
+
+        <label>Tags:</label><br>
+        <input type="text" name="tags" required><br><br>
+
+        <label>Channel Name:</label><br>
+        <input type="text" name="channel" required><br><br>
+
+        <label>Channel Follower Count:</label><br>
+        <input type="text" name="channel_follower_count" required><br><br>
+
+        <input type="submit" value="Get Recommendations">
+    </form>
+</body>
+</html>
