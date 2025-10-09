@@ -1,20 +1,25 @@
+import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+# Automatically locate the CSV file in the same directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(BASE_DIR, "youtube-top-100-songs-2025.csv")
+
 # Load dataset
-music = pd.read_csv("C:/Users/user/OneDrive/Documents/VaStUfFs/DATA SCIENCE AND AI/AI/FINAL_PROJECT/youtube-top-100-songs-2025.csv")
+music = pd.read_csv(csv_path)
+
 # Data cleaning
 music['tags'] = music['tags'].fillna(music['tags'].mode()[0])
 music = music.drop_duplicates(subset=['title', 'channel']).reset_index(drop=True)
 
 # Select features
 selected_features = ['view_count', 'tags', 'channel', 'channel_follower_count']
-
 for feature in selected_features:
     music[feature] = music[feature].fillna(' ')
 
-# Combine features into a single text
+# Combine features
 combined_features = (
     music['view_count'].astype(str) + ' ' +
     music['tags'] + ' ' +
